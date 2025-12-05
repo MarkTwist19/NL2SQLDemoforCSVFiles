@@ -31,3 +31,5 @@ Key Features of This Version:
     Extend the rule-based engine with more patterns 
 
     Add OpenAI GPT integration later if desired 
+
+See the demo in action at: https://nl2sqldemoforcsvfiles.streamlit.app/
