@@ -1,3 +1,13 @@
+import sys
+import os
+
+# Fix for PyInstaller bundled app
+if getattr(sys, 'frozen', False):
+    # Running as compiled executable
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.dirname(__file__)
+    
 # nl2sql_demo.py
 import streamlit as st
 import pandas as pd
@@ -7,6 +17,24 @@ import random
 from datetime import datetime, timedelta
 import re
 import os
+
+# Prevent Streamlit from trying to open a browser
+os.environ['STREAMLIT_BROWSER_GATHER_USAGE_STATS'] = 'false'
+os.environ['STREAMLIT_SERVER_HEADLESS'] = 'true'
+
+# Add a simple check to keep the app running
+# import threading
+# import time
+
+# def keep_alive():
+#    """Simple function to keep the app running"""
+#    while True:
+#        time.sleep(1)
+
+# Start the keep-alive thread in the background
+keep_alive_thread = threading.Thread(target=keep_alive, daemon=True)
+keep_alive_thread.start()
+
 
 # Set page config FIRST
 st.set_page_config(
@@ -208,3 +236,12 @@ def main():
 # Run the app
 if __name__ == "__main__":
     main()
+
+# Keep the app running
+st.write("---")
+st.write("The application is running on http://localhost:8501")
+st.write("Press Ctrl+C in the terminal to stop")
+
+# If running as executable, show a message
+if getattr(sys, 'frozen', False):
+    input("\nPress Enter to exit...")
